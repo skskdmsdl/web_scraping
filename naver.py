@@ -26,3 +26,6 @@ def extract_naver_news(last_page):
         result = requests.get(f"{URL}&start={page*10}&refresh_start=0")
         print(result.status_code)
     return news
+
+# 페이지 정보 추출까지 성공!
+# 이후 뉴스 정보 추출하기
