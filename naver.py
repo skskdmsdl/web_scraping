@@ -20,12 +20,19 @@ def extract_naver_pages():
     max_page = pages[-1]
     return max_page
 
+def extract_news(html):
+    title = html.find("a", {"class": "news_tit"})["title"] # 뉴스 title 정보 
+    company = html.find("a", {"class": "info press"}).text
+    return {'title': title, 'company': company} #dictionary 생성
+
 def extract_naver_news(last_page):
     news = []
-    for page in range(last_page):
-        result = requests.get(f"{URL}&start={page*10}&refresh_start=0")
-        print(result.status_code)
+    #for page in range(last_page):
+    result = requests.get(f"{URL}&start={0*10}&refresh_start=0") # 뉴스 기사 정보
+    soup = BeautifulSoup(result.text, "html.parser")
+    results = soup.find_all("div", {"class":"news_wrap api_ani_send"})
+    #print(results)
+    for result in results:  #results는 html list이고, soup을 사용했으니까 soup의 list이기도 함
+        news_info = extract_news(result)
+        news.append(news_info) # news_info를 news배열에 담기
     return news
-
-# 페이지 정보 추출까지 성공!
-# 이후 뉴스 정보 추출하기
