@@ -1,7 +1,5 @@
-from naver import extract_naver_pages, extract_naver_news
+from naver import get_news as get_naver_news
 
-last_naver_pages = extract_naver_pages()
-
-naver_news = extract_naver_news(last_naver_pages)
+naver_news = get_naver_news()
 
 print(naver_news)

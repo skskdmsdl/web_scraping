@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 URL = "https://search.naver.com/search.naver?&where=news&query=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90&sm=tab_pge&sort=1&photo=0&field=0&reporter_article=&pd=6&ds=2020.06.23&de=2020.12.20&docid=&nso=so:dd,p:6m,a:all&mynews=0"
 
-def extract_naver_pages():
+def get_last_page():
     result = requests.get(URL)
 
     soup = BeautifulSoup(result.text, "html.parser")
@@ -22,17 +22,26 @@ def extract_naver_pages():
 
 def extract_news(html):
     title = html.find("a", {"class": "news_tit"})["title"] # 뉴스 title 정보 
-    company = html.find("a", {"class": "info press"}).text
-    return {'title': title, 'company': company} #dictionary 생성
+    company = html.find("a", {"class": "info press"}).text # 신문사 정보
+    link = html.find("a")["href"]  # 링크 주소
+    return {
+        'title': title, 
+        'company': company,
+        'link': link} #dictionary 생성
 
 def extract_naver_news(last_page):
     news = []
-    #for page in range(last_page):
-    result = requests.get(f"{URL}&start={0*10}&refresh_start=0") # 뉴스 기사 정보
-    soup = BeautifulSoup(result.text, "html.parser")
-    results = soup.find_all("div", {"class":"news_wrap api_ani_send"})
-    #print(results)
+    for page in range(last_page):
+        print(f"Scrapping page {page}")
+        result = requests.get(f"{URL}&start={page*10}&refresh_start=0") # 뉴스 기사 정보
+        soup = BeautifulSoup(result.text, "html.parser")
+        results = soup.find_all("div", {"class":"news_wrap api_ani_send"})
     for result in results:  #results는 html list이고, soup을 사용했으니까 soup의 list이기도 함
         news_info = extract_news(result)
         news.append(news_info) # news_info를 news배열에 담기
+    return news
+
+def get_news():
+    last_page = get_last_page()
+    news = extract_naver_news(last_page)
     return news
