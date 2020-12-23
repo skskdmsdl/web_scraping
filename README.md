@@ -6,7 +6,7 @@ Pyhon_Personal_Project
 개발기간 : 2020.12.18 ~ 
 
 # Skills
-* Pyhon
+* Python
 * HTML/CSS
 * Git
 
