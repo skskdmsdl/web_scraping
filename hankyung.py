@@ -2,6 +2,10 @@ from urllib.parse import quote_plus
 import requests
 from bs4 import BeautifulSoup
 
+# 1. 페이지 가져오기
+# 2. request 만들기
+# 3. news 정보 추출하기
+
 base_url = "https://search.hankyung.com/apps.frm/search.news?query="
 keyword_url = input("무엇을 검색할까요? : ")
 url = base_url + quote_plus(keyword_url) 
@@ -45,7 +49,3 @@ def get_news():
 
 
 
-
-# 1. 페이지 가져오기
-# 2. request 만들기
-# 3. news 정보 추출하기
