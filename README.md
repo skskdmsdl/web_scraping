@@ -1,4 +1,4 @@
-# web_scrapping
+# web_scraping
 Pyhon_Personal_Project
 
 # Overview
