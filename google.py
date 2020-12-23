@@ -1,16 +1,20 @@
+from urllib.parse import quote_plus
 import requests
 from bs4 import BeautifulSoup
+#from selenium import webdriver
 
-#주소 변경하기 google로 https://www.youtube.com/watch?v=3b_VMk3WlNY
-URL = "https://search.daum.net/search?w=news&sort=recency&q=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90&cluster=n&DA=PGD&dc=STC&pg=1&r=1&p=1&rc=1&at=more&sd=20200623030151&ed=20201223030151&period=6m"
+base_url = "https://www.google.com/search?q="
+keyword_url = input("무엇을 검색할까요? : ")
+url = base_url + quote_plus(keyword_url) + "&tbm=nws&start=0"
 
 def get_last_page():
-    result = requests.get(URL)
+    result = requests.get(url)
 
     soup = BeautifulSoup(result.text, "html.parser")
-    pages = soup.find("div", {"class": "inner_article"}).text
-    
-    print(pages)
+    pages = soup.find('div')
+    for page in pages:
+        print(page)
+
     # for page in pages:
     #     link = page.text
     #     print(link)

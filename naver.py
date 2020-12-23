@@ -23,16 +23,18 @@ def get_last_page():
 def extract_news(html):
     title = html.find("a", {"class": "news_tit"})["title"] # 뉴스 title 정보 
     company = html.find("a", {"class": "info press"}).text # 신문사 정보
+    date = html.find("div", {"class": "info_group"}).find_all("span")[-1].string # date
     link = html.find("a")["href"]  # 링크 주소
     return {
         'title': title, 
         'company': company,
+        'date': date,
         'link': link} #dictionary 생성
 
 def extract_naver_news(last_page):
     news = []
     for page in range(last_page):
-        print(f"Scrapping page {page}")
+        print(f"Scrapping Naver Page : {page}")
         result = requests.get(f"{URL}&start={page*10}&refresh_start=0") # 뉴스 기사 정보
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class":"news_wrap api_ani_send"})
