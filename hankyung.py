@@ -9,7 +9,6 @@ url = base_url + quote_plus(keyword_url)
 
 def get_last_page():
     result = requests.get(url)
-
     soup = BeautifulSoup(result.text, "html.parser")
     pages = soup.find("span", {"class": "num"}).find_all("a")
     for page in pages:
@@ -26,8 +25,6 @@ def extract_news(html):
             'company': company,
             'date': date,
             'link': link}
-
-
 
 def extract_hk_news(last_page):
     news = []

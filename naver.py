@@ -16,7 +16,6 @@ def get_last_page():
 
     for link in links:
         pages.append(int(link.string))
-
     max_page = pages[-1]
     return max_page
 
