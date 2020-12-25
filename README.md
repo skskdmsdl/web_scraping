@@ -7,6 +7,7 @@ Pyhon_Personal_Project
 
 # Skills
 * Python
+* Flask
 * HTML/CSS
 * Git
 
