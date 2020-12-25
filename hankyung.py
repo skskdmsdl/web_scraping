@@ -33,7 +33,7 @@ def extract_news(html):
 def extract_hk_news(last_page):
     news = []
     for page in range(last_page):
-        print(f"Scrapping HanKyung Page : {page}")
+        #print(f"Scrapping HanKyung Page : {page}")
         result = requests.get(f"{url}&page={page+1}")
         soup =BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class": "txt_wrap"})

@@ -33,7 +33,7 @@ def extract_news(html):
 def extract_naver_news(last_page):
     news = []
     for page in range(last_page):
-        print(f"Scrapping Naver Page : {page}")
+        #print(f"Scrapping Naver Page : {page}")
         result = requests.get(f"{URL}&start={page*10}&refresh_start=0") # 뉴스 기사 정보
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class":"news_wrap api_ani_send"})
