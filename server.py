@@ -22,7 +22,7 @@ def report():
             news = get_news(word)
             db[word] = news
     else:  # 검색어를 입력하지 않은 경우 redirect시키기
-        return redirect("/")
+        return redirect("/")  
     return render_template("report.html", searchingBy=word, resultNumber=len(news))
 
 app.run(host="127.0.0.1")
