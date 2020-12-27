@@ -1,13 +1,26 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Search</title>
-</head>
-<body>
-    <h1>Search Results</h1>
-    <h3>Found {{resultNumber}} results for: {{searchingBy}}</h3>
-    
-</body>
-</html>
+<style>
+    section{
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+</style>
+
+<div class="about">
+    <div class="about--banner">
+      <h2>result</h2>
+      <h3>Found {{resultNumber}} results for: {{searchingBy}}</h3>
+      <section>
+          <h4>Title</h4>
+          <h4>Company</h4>
+          <h4>Date</h4>
+          <h4>Link</h4>
+          {% for result_news in news%}
+            <span>{{result_news.title}}</span>
+            <span>{{result_news.company}}</span>
+            <span>{{result_news.date}}</span>
+            <a href="{{result_news.link}}" target="_blank">Go to page</a>
+          {% endfor %}
+      </section>
+    </div>
+  </div>

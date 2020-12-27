@@ -15,14 +15,19 @@ def report():
     word = request.args.get("word")  #word라는 이름의 argument를 가져오기
     if word:
         word = word.lower()
-        fromDb = db.get(word)
-        if fromDb:
-            news = fromDb
+        existingNews = db.get(word)
+        if existingNews:
+            news = existingNews
         else:
             news = get_news(word)
             db[word] = news
     else:  # 검색어를 입력하지 않은 경우 redirect시키기
         return redirect("/")  
-    return render_template("report.html", searchingBy=word, resultNumber=len(news))
+    return render_template(
+        "report.html", 
+        searchingBy=word, 
+        resultNumber=len(news),
+        news=news
+    )
 
 app.run(host="127.0.0.1")
