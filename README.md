@@ -1,5 +1,5 @@
 # web_scraping
-Pyhon_Personal_Project
+Python_Personal_Project
 
 # Overview
 주식 관련 기사 모아주는 사이트<br/>
