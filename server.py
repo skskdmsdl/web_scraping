@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 from naver import get_news
+from exporter import save_to_file
 
 app = Flask("WebScrapper")   #앱 만들기 Flask("앱 이름 지정")
 
@@ -29,5 +30,21 @@ def report():
         resultNumber=len(news),
         news=news
     )
+
+@app.route("/export")
+def export():
+    try:  # try의 코드를 실행하다가 에러가 나면 except의 코드가 실행됨
+        word = request.args.get("word")
+        if not word:
+            raise Exception()  # 만약 word가 존재하지 않으면 exception을 발생시킴
+        word = word.lower()
+        news = db.get(word)
+        if not news:
+            raise Exception()
+        save_to_file(news)
+        return send_file("news.csv")
+    except:
+        return redirect("/")
+
 
 app.run(host="127.0.0.1")
