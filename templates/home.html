@@ -10,8 +10,15 @@
   <meta name="author" content="Bucky Maler">
   <link rel="stylesheet" href="/static/css/main.css">
 </head>
-<body>
+<style>
+  section{
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(4, 1fr);
+  }
+</style>
 
+<body>
 <!-- notification for small viewports and landscape oriented smartphones -->
 <div class="device-notification">
   <a class="device-notification--logo" href="#0">
@@ -30,7 +37,7 @@
             <img src="/static/img/logo.png" alt="Global">
             <p>Web Scraping</p>
           </a>
-          <button class="header--cta cta">My Profile</button>
+          <button id="header--cta" class="header--cta cta">My Profile</button>
           <div class="header--nav-toggle">
             <span></span>
           </div>
@@ -39,21 +46,21 @@
           <ul class="side-nav">
             <li class="is-active"><span>Home</span></li>
             <li><span>Works</span></li>
-            <li><span>About</span></li>
+            <li><span>Result</span></li>
             <li><span>Contact</span></li>
             <li><span>My Profile</span></li>
           </ul>
         </nav>
-        <ul class="l-main-content main-content">
+        <ul id="l-main-content" class="l-main-content main-content">
           <li class="l-section section section--is-active">
             <div class="intro">
               <div class="intro--banner">
                 <h1>News<br>Search</h1>
                 <h2> 
-                  <form action="/report" method="get">
+                  <!--<form action="/report" method="get">-->
                     <input style="color: black;" name="word" placeholder="What do you want?" required>
-                    <button>Search</button>
-                  </form>
+                    <button id="search">Search</button>
+                  <!--</form>-->
                 </h2>
                 <!-- <button class="cta">My Profile
                   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118" style="enable-background:new 0 0 150 118;" xml:space="preserve">
@@ -135,7 +142,25 @@
             </div>
           </li>
           <li class="l-section section">
-            {% include 'sample.html' %}
+            <div class="about">
+              <div class="about--banner">
+                <!-- <h2>Result</h2> -->
+                <h3>Found {{resultNumber}} results for: {{searchingBy}}</h3>
+                <a href="/export?word={{searchingBy}}">Export to CSV</a>
+                <section>
+                    <h4>Title</h4>
+                    <h4>Company</h4>
+                    <h4>Date</h4>
+                    <h4>Link</h4>
+                    {% for result_news in news%}
+                      <span>{{result_news.title}}</span>
+                      <span>{{result_news.company}}</span>
+                      <span>{{result_news.date}}</span>
+                      <a href="{{result_news.link}}" target="_blank">Go to page</a>
+                    {% endfor %}
+                </section>
+              </div>
+            </div>
           </li>
           <li class="l-section section">
             <div class="contact">
@@ -244,10 +269,11 @@
       </div>
     </div>
   </div>
+  <!-- 메뉴바 목록  -->
   <ul class="outer-nav">
     <li class="is-active">Home</li>
     <li>Works</li>
-    <li>About</li>
+    <li>Result</li>
     <li>Contact</li>
     <li>My profile</li>
   </ul>
@@ -256,23 +282,31 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-2.2.4.min.js"><\/script>')</script>
 <script src="/static/js/functions-min.js"></script>
-</body>
 <script>
-  function test(){
-          $.ajax({
-                  type : 'Get',                                  
-                  url : 'http://127.0.0.1:5000/request',
-                  data : {
-                         SensorID:text_data                      
-                  },
-                  dataType : 'JSON',
-                  success : function(result){
-                          alert("result = "+ result);
-                  },
-                  error : function(xtr,status,error){
-                          alert(xtr +":"+status+":"+error);
-                  }
-          });
-  }
-  </script>
+  $("#search").on("click", function(){
+    $("#header--cta").addClass("is-active");
+    $(".l-section section section--is-active").children("div").eq(0).addClass("section--next");
+    $("#l-main-content").children("li").eq(0).removeClass("section--is-active");
+    $("#l-main-content").children("li").eq(2).addClass("section--is-active");
+    $(".l-section section section--is-active").children("div").eq(0).removeClass("section--prev");
+    $(".side-nav").children().eq(0).removeClass("is-active");
+    $(".side-nav").children().eq(2).addClass("is-active");
+    // $.ajax({
+    //   type : 'Get',                                  
+    //   url : 'http://127.0.0.1:5000/request',
+    //   data : {
+    //           SensorID:text_data                      
+    //   },
+    //   dataType : 'JSON',
+    //   success : function(result){
+    //           alert("result = "+ result);
+    //   },
+    //   error : function(xtr,status,error){
+    //           alert(xtr +":"+status+":"+error);
+    //   }
+    // });
+  });
+</script>
+</body>
+
 </html>
