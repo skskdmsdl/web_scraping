@@ -9,7 +9,8 @@ Python_Personal_Project
 * Python
 * Flask
 * HTML/CSS
-* 
+* JavaScript/jQuery
+* Ajax
 * Git
 
 
