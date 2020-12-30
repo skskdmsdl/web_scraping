@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, render_template, request, redirect, send_file, jsonify
 from naver import get_news
 from exporter import save_to_file
 
@@ -11,9 +11,9 @@ def home():
 
     return render_template("home.html")
 
-@app.route("/report")
+@app.route("/report", methods =['POST'])
 def report():
-    word = request.args.get("word")  #word라는 이름의 argument를 가져오기
+    word = request.get_json("word")  #json data를 가져오기
     if word:
         word = word.lower()
         existingNews = db.get(word)
@@ -24,12 +24,12 @@ def report():
             db[word] = news
     else:  # 검색어를 입력하지 않은 경우 redirect시키기
         return redirect("/")  
-    return render_template(
+    return jsonify(render_template(
         "report.html", 
         searchingBy=word, 
         resultNumber=len(news),
         news=news
-    )
+    ))
 
 @app.route("/export")
 def export():
