@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-#URL = "https://search.naver.com/search.naver?&where=news&query=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90&sm=tab_pge&sort=1&photo=0&field=0&reporter_article=&pd=6&ds=2020.06.23&de=2020.12.20&docid=&nso=so:dd,p:6m,a:all&mynews=0"
-
 def get_last_page(url):
     result = requests.get(url)
 
@@ -33,7 +31,6 @@ def extract_news(html):
 def extract_naver_news(last_page, url):
     news = []
     for page in range(last_page):
-        #print(f"Scrapping Naver Page : {page}")
         result = requests.get(f"{url}&start={page*10}") # 뉴스 기사 정보
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class":"news_wrap api_ani_send"})

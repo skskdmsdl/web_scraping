@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, send_file, jsonify
-from naver import get_news
+from naver import get_news as get_naver_news
+from hankyung import get_news as get_hankyung_news
 from exporter import save_to_file
 
 app = Flask("WebScrapper")   #앱 만들기 Flask("앱 이름 지정")
@@ -20,7 +21,9 @@ def report():
         if existingNews:
             news = existingNews
         else:
-            news = get_news(word)
+            naver_news = get_naver_news(word)
+            hankyung_news = get_hankyung_news(word)
+            news = naver_news + hankyung_news
             db[word] = news
     else:  # 검색어를 입력하지 않은 경우 redirect시키기
         return redirect("/")  

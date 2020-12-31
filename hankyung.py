@@ -6,12 +6,7 @@ from bs4 import BeautifulSoup
 # 2. request 만들기
 # 3. news 정보 추출하기
 
-base_url = "https://search.hankyung.com/apps.frm/search.news?query="
-keyword_url = input("무엇을 검색할까요? : ")
-url = base_url + quote_plus(keyword_url) 
-
-
-def get_last_page():
+def get_last_page(url):
     result = requests.get(url)
     soup = BeautifulSoup(result.text, "html.parser")
     pages = soup.find("span", {"class": "num"}).find_all("a")
@@ -30,10 +25,9 @@ def extract_news(html):
             'date': date,
             'link': link}
 
-def extract_hk_news(last_page):
+def extract_hk_news(last_page, url):
     news = []
     for page in range(last_page):
-        #print(f"Scrapping HanKyung Page : {page}")
         result = requests.get(f"{url}&page={page+1}")
         soup =BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class": "txt_wrap"})
@@ -42,9 +36,10 @@ def extract_hk_news(last_page):
             news.append(hk_news)
     return news
 
-def get_news():
-    last_page = get_last_page()
-    news = extract_hk_news(last_page)
+def get_news(word):
+    url = f"https://search.hankyung.com/apps.frm/search.news?query={word}"
+    last_page = get_last_page(url)
+    news = extract_hk_news(last_page, url)
     return news
 
 
