@@ -282,6 +282,7 @@
 <script src="/static/js/functions-min.js"></script>
 <script>
   $("#search").on("click", function(){
+    $(".about--banner").empty();
   //  $("#header--cta").addClass("is-active");
     $(".l-section section section--is-active").children("div").eq(0).addClass("section--next");
     $("#l-main-content").children("li").eq(0).removeClass("section--is-active");
@@ -296,10 +297,11 @@
       data : JSON.stringify(word),
       dataType : 'JSON',
       success : function(result){
-              $(".about--banner").append(result)
+        
+        $(".about--banner").append(result)
       },
       error : function(xtr,status,error){
-              alert(xtr +":"+status+":"+error);
+        $(".about--banner").append("<h3>검색어를 입력해주세요</h3>")
       }
     });
   });
