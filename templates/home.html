@@ -297,11 +297,10 @@
       data : JSON.stringify(word),
       dataType : 'JSON',
       success : function(result){
-        
         $(".about--banner").append(result)
       },
       error : function(xtr,status,error){
-        $(".about--banner").append("<h3>검색어를 입력해주세요</h3>")
+        $(".about--banner").append("<h3>데이터가 존재하지 않습니다.</h3>")
       }
     });
   });
