@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_file, jsonify
 from naver import get_news as get_naver_news
 from hankyung import get_news as get_hankyung_news
+from graph import get_graph 
 from exporter import save_to_file
 import math
 
@@ -25,6 +26,9 @@ def report():
         page = request.args.get("page", 1, type=int)
     # 한 페이지 당 몇 개의 게시물을 출력할 것인가
     limit = 10
+
+    # 그래프 이미지 가져오기
+    graph = get_graph()
     
     if word:
         word = word.lower()
@@ -78,7 +82,8 @@ def report():
         page=page,
         block_start=block_start,
         block_end=block_end,
-        last_page_num=last_page_num
+        last_page_num=last_page_num,
+        graph=graph
     ))
 
 @app.route("/export")

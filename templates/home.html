@@ -14,6 +14,25 @@
   .about--banner{
     top: -50px;
   }
+  .loader {
+	  border: 6px solid #f3f3f3;
+	  border-top: 6px solid #0F33FF;
+	  border-radius: 50%;
+	  width: 30px;
+	  height: 30px;
+	  animation: spin 2s linear infinite;
+	  position:fixed;
+	  top:50%;
+	  left:50%;
+	  transform:translate(-50%,-50%);
+	}
+	@keyframes spin {
+	  0% {transform:translate(-50%,-50%) rotate(0deg); }
+	  100% {transform:translate(-50%,-50%) rotate(360deg); }
+	}
+  .searching{
+    padding: 340px 46%;
+  }
 </style>
 
 <body>
@@ -55,19 +74,9 @@
               <div class="intro--banner">
                 <h1>News<br>Search</h1>
                 <h2> 
-                  <!--<form action="/report" method="get">-->
                     <input style="color: black;" name="word" placeholder="What do you want?" required>
                     <button id="search">Search</button>
-                  <!--</form>-->
                 </h2>
-                <!-- <button class="cta">My Profile
-                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118" style="enable-background:new 0 0 150 118;" xml:space="preserve">
-                  <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-                    <path d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z"/>
-                  </g>
-                  </svg>
-                  <span class="btn-background"></span>
-                </button> -->
                 <img src="/static/img/introduction-visual.png" alt="Welcome">
               </div>
               <div class="intro--options">
@@ -86,9 +95,10 @@
               </div>
             </div>
           </li>
+
           <li class="l-section section">
             <div class="work">
-              <h2>Selected work</h2>
+              <h2>Stock Chart</h2>
               <div class="work--lockup">
                 <ul class="slider">
                   <li class="slider--item slider--item-left">
@@ -96,16 +106,16 @@
                       <div class="slider--item-image">
                         <img src="/static/img/work-victory.jpg" alt="Victory">
                       </div>
-                      <p class="slider--item-title">Victory</p>
+                      <p class="slider--item-title">코스피 200</p>
                       <p class="slider--item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
                     </a>
                   </li>
                   <li class="slider--item slider--item-center">
                     <a href="#0">
                       <div class="slider--item-image">
-                        <img src="/static/img/work-metiew-smith.jpg" alt="Metiew and Smith">
+                        <img class="graph" src="/static/img/work-metiew-smith.jpg" alt="Metiew and Smith">
                       </div>
-                      <p class="slider--item-title">Metiew &amp; Smith</p>
+                      <p class="slider--item-title">코스피지수</p>
                       <p class="slider--item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
                     </a>
                   </li>
@@ -114,7 +124,7 @@
                       <div class="slider--item-image">
                         <img src="/static/img/work-alex-nowak.jpg" alt="Alex Nowak">
                       </div>
-                      <p class="slider--item-title">Alex Nowak</p>
+                      <p class="slider--item-title">코스닥지수</p>
                       <p class="slider--item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
                     </a>
                   </li>
@@ -139,24 +149,12 @@
               </div>
             </div>
           </li>
+
           <li class="l-section section">
             <div class="about">
               <div class="about--banner">
-                <!-- <h2>Result</h2> -->
-                <!-- <h3>Found {{resultNumber}} results for: {{searchingBy}}</h3>
-                <a href="/export?word={{searchingBy}}">Export to CSV</a>
-                <section>
-                    <h4>Title</h4>
-                    <h4>Company</h4>
-                    <h4>Date</h4>
-                    <h4>Link</h4>
-                    {% for result_news in news%}
-                      <span>{{result_news.title}}</span>
-                      <span>{{result_news.company}}</span>
-                      <span>{{result_news.date}}</span>
-                      <a href="{{result_news.link}}" target="_blank">Go to page</a>
-                    {% endfor %}
-                </section> -->
+                <div class="loader"></div>
+                <div class="searching">Searching</div>
               </div>
             </div>
           </li>
@@ -280,8 +278,7 @@
 <script src="/static/js/functions-min.js"></script>
 <script>
   $("#search").on("click", function(){
-    $(".about--banner").empty();
-  //  $("#header--cta").addClass("is-active");
+    
     $(".l-section section section--is-active").children("div").eq(0).addClass("section--next");
     $("#l-main-content").children("li").eq(0).removeClass("section--is-active");
     $("#l-main-content").children("li").eq(2).addClass("section--is-active");
@@ -295,10 +292,12 @@
       data : JSON.stringify(word),
       dataType : 'JSON',
       success : function(result){
-        $(".about--banner").append(result)
+        $(".about--banner").empty();
+        $(".about--banner").append(result);
       },
       error : function(xtr,status,error){
-        $(".about--banner").append("<h3>데이터가 존재하지 않습니다.</h3>")
+        $(".about--banner").empty();
+        $(".about--banner").append("<h3>데이터가 존재하지 않습니다.</h3>");
       }
     });
   });
