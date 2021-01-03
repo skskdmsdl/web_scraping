@@ -29,7 +29,7 @@ def report():
 
     # 그래프 이미지 가져오기
     graph = get_graph()
-    
+
     if word:
         word = word.lower()
         existingNews = db.get(word)

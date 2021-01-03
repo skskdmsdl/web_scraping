@@ -28,14 +28,16 @@
     b, .num{
       padding: 10px;
     }
+    .work--lockup .slider--item-center .slider--item-image{
+      width:400px;
+      height:300px
+    }
     .work--lockup .slider--item-image{
-      width: 150px;
-      overflow: hidden;
+      width: 100px;
       height: 100%; 
-      margin: 0;
       border-radius: 0;
     }
-    .graph{
+    .kospi, .kosdaq, .kpi200{
       padding: 50px 0;
     }
 </style>
@@ -84,13 +86,22 @@
     {% endif %}
     <!-- 페이지네이션을 위한 코드 끝 -->
   </div>
-  <input class="graph" type="hidden" name="graph" value="{{ graph }}">
+  {% for graph_info in graph %}
+    <input class="graph" type="hidden" name="kospi" value="{{ graph_info.kospi }}">
+    <input class="graph" type="hidden" name="kosdaq" value="{{ graph_info.kosdaq }}">
+    <input class="graph" type="hidden" name="kpi200" value="{{ graph_info.kpi200 }}">
+  {% endfor %}
 
 <script>
   $( document ).ready(function() {
-    let graph = $("[name=graph]").val();
-    $(".graph").attr("src", graph);
+    let kospi = $("[name=kospi]").val();
+    $(".kospi").attr("src", kospi);
+    let kosdaq = $("[name=kosdaq]").val();
+    $(".kosdaq").attr("src", kosdaq);
+    let kpi200 = $("[name=kpi200]").val();
+    $(".kpi200").attr("src", kpi200);
   });
+
   $(".num").on("click", function(){
     $(".about--banner").empty();
     let word = $("[name=word]").val()+"num_page"+$(this).val();
